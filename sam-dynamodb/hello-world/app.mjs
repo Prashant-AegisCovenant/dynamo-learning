@@ -19,14 +19,11 @@ const db = new AWS.DynamoDB.DocumentClient({
 
 
 export const createItem = async (event, context) => {
-    const {id, price} = JSON.parse(event.body);
+    const body = JSON.parse(event.body);
 
     const params = {
         TableName: 'test-table',
-        Item: {
-            id,
-            price
-        }
+        Item: body
     }
 
     try {
