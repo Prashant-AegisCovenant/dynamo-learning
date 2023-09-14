@@ -1,0 +1,9 @@
+aws/
+awscliv2.zip
+DynamoDBLocal_lib
+dynamodb_local_latest.tar.gz
+DynamoDBLocal.jar
+LICENSE.txt
+README.txt
+THIRD-PARTY-LICENSES.txt
+shared-local-instance.db
