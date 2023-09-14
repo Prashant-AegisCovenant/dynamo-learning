@@ -13,8 +13,9 @@
 import AWS from 'aws-sdk'
 const db = new AWS.DynamoDB.DocumentClient({
     region: 'local',
-    endpoint: 'https://8000-prashantaeg-dynamolearn-ighx8i5hkie.ws-us104.gitpod.io'
+    endpoint: process.env.DYNAMODB_URL
 });
+
 
 
 export const createItem = async (event, context) => {
@@ -60,9 +61,16 @@ export const getItem = async (event, context) => {
 
     try {
         const data = await db.get(params).promise()
+        if(data.Item)
+            return {
+                'statusCode': 200,
+                'body': JSON.stringify(data.Item)
+            }
         return {
             'statusCode': 200,
-            'body': JSON.stringify(data.Item)
+            'body': JSON.stringify({
+                message: 'Item not found!'
+            })
         }
     } catch (err) {
         console.log(err)
@@ -113,7 +121,10 @@ export const deleteItem = async (event, context) => {
     try {
         await db.delete(params).promise()
         return {
-            'statusCode': 204
+            'statusCode': 200,
+            'body': JSON.stringify({
+                message: 'Item deleted successfully'
+            })
         }
     } catch (err) {
         console.log(err)

@@ -9,6 +9,9 @@ Description: >
 Globals:
   Function:
     Timeout: 3
+    Environment:
+      Variables:
+        DYNAMODB_URL: "https://8000-prashantaeg-dynamolearn-ighx8i5hkie.ws-us104.gitpod.io"
 
 Resources:
   CreateItemFunction:
@@ -27,7 +30,6 @@ Resources:
             Method: post
             Auth:
               Authorizer: NONE
-
 
   GetOneItemFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
