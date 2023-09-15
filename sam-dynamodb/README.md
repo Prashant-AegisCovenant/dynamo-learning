@@ -1,3 +1,24 @@
+# Products Table Schema
+
+This JSON schema defines the structure of the "Products" DynamoDB table. The table has the following attributes:
+
+- `id`: Auto-generated unique identifier for each product (String).
+- `product_name`: Name of the product (String).
+- `product_category`: Category of the product (String).
+- `price`: Price of the product (Number).
+- `stock_in_warehouse`: Stock quantity in the warehouse (Number).
+- `stock_in_shop`: Stock quantity in the shop (Number).
+
+## Key Schema
+
+- `id`: The "id" attribute is used as the primary key with a key type of "HASH" for uniqueness.
+
+## Provisioned Throughput
+
+- Read Capacity Units: 5
+- Write Capacity Units: 5
+
+
 # sam-dynamodb
 
 This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders.

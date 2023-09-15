@@ -13,72 +13,168 @@ Globals:
       Variables:
         DYNAMODB_URL: "https://8000-prashantaeg-dynamolearn-ighx8i5hkie.ws-us104.gitpod.io"
 
+
 Resources:
-  CreateItemFunction:
+  CreateProductFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: hello-world/
-      Handler: app.createItem
+      CodeUri: products-handlers/
+      Handler: createProduct.handler
       Runtime: nodejs18.x
       Architectures:
         - x86_64
       Events:
-        HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+        CreateProductApi:
+          Type: Api
           Properties:
-            Path: /create
+            Path: /create-product
             Method: post
             Auth:
               Authorizer: NONE
-
-  GetOneItemFunction:
+    
+  GetAllProductsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: hello-world/
-      Handler: app.getItem
+      CodeUri: products-handlers/
+      Handler: getAllProducts.handler
       Runtime: nodejs18.x
       Architectures:
         - x86_64
       Events:
-        HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /get-one/{id}/{price}
-            Method: get
-            Auth:
-              Authorizer: NONE
-
-  GetAllItemsFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: hello-world/
-      Handler: app.getAllItems
-      Runtime: nodejs18.x
-      Architectures:
-        - x86_64
-      Events:
-        HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+        GetAllProductsApi:
+          Type: Api
           Properties:
             Path: /get-all
             Method: get
-  
-  DeleteItemFunction:
-    Type: AWS::Serverless::Function
+    
+  GetParticularProductFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: hello-world/
-      Handler: app.deleteItem
+      CodeUri: products-handlers/
+      Handler: getParticularProduct.handler
       Runtime: nodejs18.x
       Architectures:
         - x86_64
       Events:
-        HelloWorld:
+        GetParticularProductApi:
           Type: Api
           Properties:
-            Path: /delete/{id}/{price}
+            Path: /get-particular/{productId}
+            Method: get
+    
+  DeleteParticularProductFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: products-handlers/
+      Handler: deleteParticularProduct.handler
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+      Events:
+        DeleteParticularProductApi:
+          Type: Api
+          Properties:
+            Path: /delete-particular/{productId}
             Method: delete
-            Auth:
-              Authorizer: NONE
+
+  MoveStocksFromWarehouseToShopFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: products-handlers/
+      Handler: moveStocksFromWarehouseToShop.handler
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+      Events:
+        MoveStocksFromWarehouseToShopApi:
+          Type: Api
+          Properties:
+            Path: /movestock-w-s/{productId}/{stocksToMoveWS}
+            Method: put
+  
+  MoveStocksFromShopToWarehouseFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: products-handlers/
+      Handler: moveStocksFromShopToWarehouse.handler
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+      Events:
+        MoveStocksFromShopToWarehouseApi:
+          Type: Api
+          Properties:
+            Path: /movestock-s-w/{productId}/{stocksToMoveSW}
+            Method: put
+
+
+
+
+  # CreateItemFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: hello-world/
+  #     Handler: app.createItem
+  #     Runtime: nodejs18.x
+  #     Architectures:
+  #       - x86_64
+  #     Events:
+  #       HelloWorld:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /create
+  #           Method: post
+  #           Auth:
+  #             Authorizer: NONE
+
+  # GetOneItemFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: hello-world/
+  #     Handler: app.getItem
+  #     Runtime: nodejs18.x
+  #     Architectures:
+  #       - x86_64
+  #     Events:
+  #       HelloWorld:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /get-one/{id}/{price}
+  #           Method: get
+  #           Auth:
+  #             Authorizer: NONE
+
+  # GetAllItemsFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     CodeUri: hello-world/
+  #     Handler: app.getAllItems
+  #     Runtime: nodejs18.x
+  #     Architectures:
+  #       - x86_64
+  #     Events:
+  #       HelloWorld:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           Path: /get-all
+  #           Method: get
+  
+  # DeleteItemFunction:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     CodeUri: hello-world/
+  #     Handler: app.deleteItem
+  #     Runtime: nodejs18.x
+  #     Architectures:
+  #       - x86_64
+  #     Events:
+  #       HelloWorld:
+  #         Type: Api
+  #         Properties:
+  #           Path: /delete/{id}/{price}
+  #           Method: delete
+  #           Auth:
+  #             Authorizer: NONE
 
 
 Outputs:
