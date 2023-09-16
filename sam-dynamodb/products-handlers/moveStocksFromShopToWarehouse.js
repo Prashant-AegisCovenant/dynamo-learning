@@ -48,15 +48,18 @@ export const handler = async (event, context) => {
                 body: JSON.stringify({ message: 'Not enough stocks in shop' })
             }
         }
+
+        const currentTime = new Date().toISOString();
         
         const updateParams = {
             TableName: 'Products',
             Key: {
                 id: productId,
             },
-            UpdateExpression: 'SET stock_in_warehouse = stock_in_warehouse + :move, stock_in_shop = stock_in_shop - :move',
+            UpdateExpression: 'SET stock_in_warehouse = stock_in_warehouse + :move, stock_in_shop = stock_in_shop - :move, last_updated = :currentTime',
             ExpressionAttributeValues: {
                 ':move': stocksToMove,
+                ':currentTime': currentTime,
             }
         }
 

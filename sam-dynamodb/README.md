@@ -8,6 +8,7 @@ This JSON schema defines the structure of the "Products" DynamoDB table. The tab
 - `price`: Price of the product (Number).
 - `stock_in_warehouse`: Stock quantity in the warehouse (Number).
 - `stock_in_shop`: Stock quantity in the shop (Number).
+- `last_updated`: Timestamp of last time the item was created or updated (Date Time String).
 
 ## Key Schema
 

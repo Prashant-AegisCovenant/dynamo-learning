@@ -18,6 +18,7 @@ export const handler = async (event, context) => {
     }
 
     const productId = generateUniqueID();
+    const currentTime = new Date().toISOString();
 
     const params = {
       TableName: 'Products',
@@ -28,6 +29,7 @@ export const handler = async (event, context) => {
         price: requestBody.price,
         stock_in_warehouse: requestBody.stock_in_warehouse,
         stock_in_shop: requestBody.stock_in_shop,
+        last_updated: currentTime,
       },
     };
 

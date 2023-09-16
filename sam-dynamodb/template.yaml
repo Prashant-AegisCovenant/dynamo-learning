@@ -13,8 +13,21 @@ Globals:
       Variables:
         DYNAMODB_URL: "https://8000-prashantaeg-dynamolearn-ighx8i5hkie.ws-us104.gitpod.io"
 
-
 Resources:
+  MyApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowMethods:
+          - 'POST'
+          - 'GET'
+          - 'PUT'
+          - 'DELETE'
+        AllowHeaders:
+          - 'Content-Type'
+        AllowOrigins:
+          - '*'
+
   CreateProductFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -25,12 +38,15 @@ Resources:
         - x86_64
       Events:
         CreateProductApi:
-          Type: Api
+          Type: HttpApi
           Properties:
+            ApiId:
+              Ref: MyApi
             Path: /create-product
             Method: post
             Auth:
               Authorizer: NONE
+          
     
   GetAllProductsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -42,8 +58,10 @@ Resources:
         - x86_64
       Events:
         GetAllProductsApi:
-          Type: Api
+          Type: HttpApi
           Properties:
+            ApiId:
+              Ref: MyApi
             Path: /get-all
             Method: get
     
@@ -57,8 +75,10 @@ Resources:
         - x86_64
       Events:
         GetParticularProductApi:
-          Type: Api
+          Type: HttpApi
           Properties:
+            ApiId:
+              Ref: MyApi
             Path: /get-particular/{productId}
             Method: get
     
@@ -72,8 +92,10 @@ Resources:
         - x86_64
       Events:
         DeleteParticularProductApi:
-          Type: Api
+          Type: HttpApi
           Properties:
+            ApiId:
+              Ref: MyApi
             Path: /delete-particular/{productId}
             Method: delete
 
@@ -87,8 +109,10 @@ Resources:
         - x86_64
       Events:
         MoveStocksFromWarehouseToShopApi:
-          Type: Api
+          Type: HttpApi
           Properties:
+            ApiId:
+              Ref: MyApi
             Path: /movestock-w-s/{productId}/{stocksToMoveWS}
             Method: put
   
@@ -102,13 +126,12 @@ Resources:
         - x86_64
       Events:
         MoveStocksFromShopToWarehouseApi:
-          Type: Api
+          Type: HttpApi
           Properties:
+            ApiId:
+              Ref: MyApi
             Path: /movestock-s-w/{productId}/{stocksToMoveSW}
             Method: put
-
-
-
 
   # CreateItemFunction:
   #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction

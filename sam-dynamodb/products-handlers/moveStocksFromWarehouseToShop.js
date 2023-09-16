@@ -42,14 +42,17 @@ export const handler = async (event, context) => {
             }
         }
 
+        const currentTime = new Date().toISOString();
+        
         const updateParams = {
             TableName: 'Products',
             Key: {
                 id: productId,
             },
-            UpdateExpression: 'SET stock_in_warehouse = stock_in_warehouse - :move',
+            UpdateExpression: 'SET stock_in_warehouse = stock_in_warehouse - :move, last_updated = :currentTime',
             ExpressionAttributeValues: {
-                ':move': stocksToMove
+                ':move': stocksToMove,
+                ':currentTime': currentTime
             }
         }
         
