@@ -40,13 +40,18 @@ const StockTransferModal = ({
 
   const handleTransferSW = ({ productId }) => {
     transferSW(productId, stocksToTransfer);
-    onClose();
+    handleClose()
   };
 
   const handleTransferWS = ({ productId }) => {
     transferWS(productId, stocksToTransfer);
-    onClose();
+    handleClose()
   };
+
+  const handleClose = () => {
+    onClose();
+    setStocksToTransfer("")
+  }
 
   return (
     <Dialog onClose={onClose} open={open} sx={{ p: 2 }} fullWidth>
