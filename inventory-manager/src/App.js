@@ -12,6 +12,7 @@ function App() {
 
   useEffect(() => {
     fetchProductsData();
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
 
   const fetchProductsData = async () => {
