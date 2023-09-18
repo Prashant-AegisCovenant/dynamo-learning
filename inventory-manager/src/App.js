@@ -51,7 +51,6 @@ function App() {
       stock_in_shop: parseInt(product?.stock_in_shop) || 0,
     };
     try {
-      // console.log("Product: ",parsedProduct)
       await api.post("/create-product", parsedProduct);
       reloadTable();
     } catch (error) {

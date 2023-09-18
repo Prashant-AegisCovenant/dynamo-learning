@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Box,
   Table,
   TableBody,
   TableCell,
@@ -16,10 +17,12 @@ import {
   TextField,
   Typography,
   Button,
+  Pagination
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import CloseIcon from "@mui/icons-material/Close";
+import usePagination from "../utils/pagination";
 
 const StockTransferModal = ({
   open,
@@ -121,6 +124,16 @@ const ProductTable = ({
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [activeProduct, setActiveProduct] = useState({});
+  const [page, setPage] = useState(1)
+  const PER_PAGE = 10
+
+  const pageCount = Math.ceil(data.length / PER_PAGE);
+  const DATA = usePagination(data, PER_PAGE)
+
+  const handlePageChange = (event, page) => {
+    setPage(page)
+    DATA.jump(page)
+  }
 
   const handleStockExchangeClick = (product) => {
     setModalOpen(true);
@@ -178,7 +191,7 @@ const ProductTable = ({
                     </TableCell>
                   </TableRow>
                 ))
-              : data.map((product) => (
+              : DATA.currentData().map((product) => (
                   <TableRow key={product.id}>
                     <TableCell>{product.id}</TableCell>
                     <TableCell>{product.product_name}</TableCell>
@@ -209,14 +222,25 @@ const ProductTable = ({
                 ))}
           </TableBody>
         </Table>
-        <StockTransferModal
-          open={modalOpen}
-          onClose={handleClose}
-          product={activeProduct}
-          transferSW={transferSW}
-          transferWS={transferWS}
-        />
       </TableContainer>
+      <StockTransferModal
+        open={modalOpen}
+        onClose={handleClose}
+        product={activeProduct}
+        transferSW={transferSW}
+        transferWS={transferWS}
+      />
+      <Box sx={{display: 'flex', justifyContent: 'space-around' }}>
+      <Pagination
+          count={pageCount}
+          size='small'
+          page={page}
+          onChange={handlePageChange}
+          sx={{mt:2}}
+          showFirstButton
+          showLastButton
+          />
+        </Box>
     </div>
   );
 };
